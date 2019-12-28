@@ -6,9 +6,11 @@ import (
 	"github.com/jszwec/csvutil"
 )
 
-// WorkExpanded means... 「公開中　作家別作品一覧拡充版：全て(CSV形式、UTF-8、zip圧縮）」
-// see also: https://www.aozora.gr.jp/index_pages/person_all.html
-// remind: remove BOM and change CRLF to LF.
+/*
+WorkExpanded means 「公開中　作家別作品一覧拡充版：全て(CSV形式、UTF-8、zip圧縮）」
+  see also: https://www.aozora.gr.jp/index_pages/person_all.html
+  remind: remove BOM and change CRLF to LF.
+*/
 type WorkExpanded struct {
 	CardID           string `csv:"作品ID"`
 	CardTitle        string `csv:"作品名"`
@@ -84,7 +86,7 @@ type ParentBook struct {
 	FirstEdtionIssuedOn string
 }
 
-// OriginBook return 底本 with its parent book
+// OriginBook return origin book with its parent book
 func (w WorkExpanded) OriginBook() []OriginBook {
 	return []OriginBook{
 		OriginBook{
