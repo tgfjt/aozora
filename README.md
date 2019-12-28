@@ -1,5 +1,10 @@
 # aozora
 
+[![Build Status](https://travis-ci.org/tgfjt/aozora.png?branch=master)](https://travis-ci.org/tgfjt/aozora)
+[![GoDoc](https://godoc.org/github.com/tgfjt/aozora?status.svg)](https://godoc.org/github.com/tgfjt/aozora)
+
+青空文庫に感謝して使う。
+
 ## Usage
 
 ```go
