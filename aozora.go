@@ -4,7 +4,12 @@ import (
 	"io/ioutil"
 
 	"github.com/jszwec/csvutil"
+	"github.com/rakyll/statik/fs"
+
+	_ "github.com/tgfjt/aozora/statik"
 )
+
+//go:generate statik -src=data
 
 /*
 WorkExpanded means 「公開中　作家別作品一覧拡充版：全て(CSV形式、UTF-8、zip圧縮）」
@@ -119,18 +124,26 @@ func (w WorkExpanded) OriginBook() []OriginBook {
 // ListOfWorks return a expanded version list of Works.
 func ListOfWorks() ([]WorkExpanded, error) {
 	var err error
-	// https://www.aozora.gr.jp/index_pages/person_all.html
-	// 「公開中　作家別作品一覧拡充版：全て(CSV形式、UTF-8、zip圧縮）」をダウンロード
-	bs, err := ioutil.ReadFile("./data/list_person_all_extended_utf8.csv")
+	var listOfWorks []WorkExpanded
 
+	statikFS, err := fs.New()
 	if err != nil {
 		return nil, err
 	}
 
-	var listOfWorks []WorkExpanded
+	// https://www.aozora.gr.jp/index_pages/person_all.html
+	// 「公開中　作家別作品一覧拡充版：全て(CSV形式、UTF-8、zip圧縮）」をダウンロード
+	f, err := statikFS.Open("/list_person_all_extended_utf8.csv")
+	if err != nil {
+		return nil, err
+	}
 
-	err = csvutil.Unmarshal(bs, &listOfWorks)
+	b, err := ioutil.ReadAll(f)
+	if err != nil {
+		return nil, err
+	}
 
+	err = csvutil.Unmarshal(b, &listOfWorks)
 	if err != nil {
 		return nil, err
 	}
