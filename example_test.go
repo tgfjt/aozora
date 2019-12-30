@@ -24,3 +24,19 @@ func ExampleListOfWorks() {
 	// Output:
 	// 筑摩全集類聚版芥川龍之介全集
 }
+
+func ExampleWorks_Where() {
+	list, err := aozora.ListOfWorks()
+
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	result := list.Where(func(w aozora.WorkExpanded) bool {
+		return w.CardID == "001924"
+	})
+
+	fmt.Println(fmt.Sprintf("%d件合致しました: %s\n", len(result), result[0].CardTitle))
+	// Output:
+	// 1件合致しました: グスコーブドリの伝記
+}

@@ -74,6 +74,19 @@ type WorkExpanded struct {
 	// PropName string `csv:"XHTML/HTMLファイル修正回数"`
 }
 
+// Works is alias of []WorkExpanded
+type Works []WorkExpanded
+
+// Where return Works matches the conditional fn
+func (ws Works) Where(fn func(WorkExpanded) bool) (result Works) {
+	for _, v := range ws {
+		if fn(v) {
+			result = append(result, v)
+		}
+	}
+	return result
+}
+
 // OriginBook means 底本
 type OriginBook struct {
 	Title               string
@@ -122,9 +135,9 @@ func (w WorkExpanded) OriginBook() []OriginBook {
 }
 
 // ListOfWorks return a expanded version list of Works.
-func ListOfWorks() ([]WorkExpanded, error) {
+func ListOfWorks() (Works, error) {
 	var err error
-	var listOfWorks []WorkExpanded
+	var listOfWorks Works
 
 	statikFS, err := fs.New()
 	if err != nil {
